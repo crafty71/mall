@@ -63,8 +63,8 @@ public class UserController {
   @PostMapping("/login")
   @ResponseBody
   public ApiRestResponse login(@RequestParam("userName") String userName,
-      @RequestParam("password") String password,
-      HttpSession session) throws ImoocMallException {
+      @RequestParam("password") String password, HttpSession session)
+      throws ImoocMallException {
     if (StringUtils.isEmpty(userName)) {
       return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_USER_NAME);
     }
@@ -72,8 +72,8 @@ public class UserController {
       return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_PASSWORD);
     }
     User user = userService.login(userName, password);
-    System.out.println(user);
-    user.setPassword("想看吗，哎，就不给你看，略略略");
+    //保存用户信息时，不保存密码
+    user.setPassword("");
     session.setAttribute(Constant.IMOOC_MALL_USER, user);
     return ApiRestResponse.success(user);
   }
@@ -87,6 +87,7 @@ public class UserController {
   @ResponseBody
   public ApiRestResponse updateUserInfo(HttpSession session, @RequestParam String signature) {
     User currentUser = (User) session.getAttribute(Constant.IMOOC_MALL_USER);
+
     if (currentUser == null) {
       return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_LOGIN);
     }

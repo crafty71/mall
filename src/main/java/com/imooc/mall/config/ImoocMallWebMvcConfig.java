@@ -13,7 +13,7 @@ public class ImoocMallWebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    registry.addResourceHandler("/images/**")
+    registry.addResourceHandler("file:" + Constant.FILE_UPLOAD_DIR)
         .addResourceLocations(Constant.FILE_UPLOAD_DIR);
     registry.addResourceHandler("swagger-ui.html").addResourceLocations(
         "classpath:/META-INF/resources/");

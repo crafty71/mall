@@ -1,4 +1,4 @@
-package com.imooc.mall.util;
+package com.imooc.mall.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

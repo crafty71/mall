@@ -26,6 +26,8 @@ import com.imooc.mall.service.OrderService;
 import com.imooc.mall.service.UserService;
 import com.imooc.mall.utils.QRCodeGenerator;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
     //生成订单
     Order order = new Order();
     //生成订单号，有独立的规则
-    String orderNo = com.imooc.mall.util.OrderCodeFactory.getOrderCode(Long.valueOf(userId));
+    String orderNo = com.imooc.mall.utils.OrderCodeFactory.getOrderCode(Long.valueOf(userId));
     order.setOrderNo(orderNo);
     order.setUserId(userId);
     order.setTotalPrice(totalPrice(orderItemList));
@@ -174,11 +176,11 @@ public class OrderServiceImpl implements OrderService {
     ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
         .getRequestAttributes();
     HttpServletRequest request = attributes.getRequest();
-//    try {
-//      ip = InetAddress.getLocalHost().getHostAddress();
-//    } catch (UnknownHostException e) {
-//      e.printStackTrace();
-//    }
+    try {
+      ip = InetAddress.getLocalHost().getHostAddress();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
     String address = ip + ":" + request.getLocalPort();
     String payUrl = "http://" + address + "/pay?orderNo=" + orderNo;
     System.out.println(Constant.FILE_UPLOAD_DIR + orderNo + ".png");
